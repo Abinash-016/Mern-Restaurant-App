@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([
@@ -31,6 +32,7 @@ const Reviews = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [newReview, setNewReview] = useState({ name: '', rating: 5, comment: '' });
+  const { showToast } = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +45,7 @@ const Reviews = () => {
     setReviews([review, ...reviews]);
     setShowForm(false);
     setNewReview({ name: '', rating: 5, comment: '' });
+    showToast('Review submitted successfully!', 'success');
   };
 
   return (

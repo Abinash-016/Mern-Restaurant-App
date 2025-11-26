@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useToast } from '../context/ToastContext';
 
 const Offers = () => {
     const [claimedOffers, setClaimedOffers] = useState([]);
+    const { showToast } = useToast();
 
     const offers = [
         {
@@ -33,7 +35,7 @@ const Offers = () => {
     const handleClaim = (id) => {
         if (!claimedOffers.includes(id)) {
             setClaimedOffers([...claimedOffers, id]);
-            alert("Offer claimed successfully! Show this code to your server: OFFER-" + id + Math.floor(Math.random() * 1000));
+            showToast("Offer claimed successfully! Code: OFFER-" + id + Math.floor(Math.random() * 1000), 'success');
         }
     };
 

@@ -1,82 +1,77 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useToast } from './ToastContext';
 
 const ShopContext = createContext();
 
-export const useShop = () => useContext(ShopContext);
-
 export const ShopProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([
-        { id: 1, name: "Truffle Risotto", price: 32, quantity: 1, image: "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
-        { id: 2, name: "Pan Seared Scallops", price: 45, quantity: 2, image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
-    ]);
+    const [cartItems, setCartItems] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const { showToast } = useToast();
 
-    const [favorites, setFavorites] = useState([
-        {
-            id: 1,
-            name: "Wagyu Beef Burger",
-            price: 28,
-            description: "Premium wagyu beef patty, truffle mayo, caramelized onions, brioche bun.",
-            image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-        },
-        {
-            id: 2,
-            name: "Lobster Thermidor",
-            price: 55,
-            description: "Whole lobster, creamy cognac sauce, gruyère cheese crust.",
-            image: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-        },
-        {
-            id: 3,
-            name: "Chocolate Lava Cake",
-            price: 14,
-            description: "Warm chocolate cake with a molten center, served with vanilla bean ice cream.",
-            image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-        }
-    ]);
+    // Load from localStorage on mount
+    useEffect(() => {
+        const savedCart = localStorage.getItem('cartItems');
+        const savedFavorites = localStorage.getItem('favorites');
+        if (savedCart) setCartItems(JSON.parse(savedCart));
+        if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
+    }, []);
+
+    // Save to localStorage on change
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }, [cartItems, favorites]);
 
     const addToCart = (item) => {
-        setCartItems(prev => {
-            const existing = prev.find(i => i.id === item.id);
+        setCartItems((prev) => {
+            const existing = prev.find((i) => i.id === item.id);
             if (existing) {
-                return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+                showToast(`Updated quantity for ${item.name}`, 'success');
+                return prev.map((i) =>
+                    i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+                );
             }
+            showToast(`Added ${item.name} to cart`, 'success');
             return [...prev, { ...item, quantity: 1 }];
         });
     };
 
     const removeFromCart = (id) => {
-        setCartItems(prev => prev.filter(item => item.id !== id));
+        const item = cartItems.find(i => i.id === id);
+        setCartItems((prev) => prev.filter((item) => item.id !== id));
+        if (item) showToast(`Removed ${item.name} from cart`, 'info');
     };
 
     const updateQuantity = (id, delta) => {
-        setCartItems(prev => prev.map(item => {
-            if (item.id === id) {
-                const newQuantity = Math.max(1, item.quantity + delta);
-                return { ...item, quantity: newQuantity };
-            }
-            return item;
-        }));
+        setCartItems((prev) =>
+            prev.map((item) => {
+                if (item.id === id) {
+                    return { ...item, quantity: Math.max(0, item.quantity + delta) };
+                }
+                return item;
+            }).filter(item => item.quantity > 0)
+        );
     };
 
     const toggleFavorite = (item) => {
-        setFavorites(prev => {
-            if (prev.find(i => i.id === item.id)) {
-                return prev.filter(i => i.id !== item.id);
+        setFavorites((prev) => {
+            const exists = prev.some((i) => i.id === item.id);
+            if (exists) {
+                showToast(`Removed ${item.name} from favorites`, 'info');
+                return prev.filter((i) => i.id !== item.id);
             }
+            showToast(`Added ${item.name} to favorites`, 'success');
             return [...prev, item];
         });
     };
 
     return (
-        <ShopContext.Provider value={{
-            cartItems,
-            favorites,
-            addToCart,
-            removeFromCart,
-            updateQuantity,
-            toggleFavorite
-        }}>
+        <ShopContext.Provider value={{ cartItems, favorites, addToCart, removeFromCart, updateQuantity, toggleFavorite }}>
             {children}
         </ShopContext.Provider>
     );
+};
+
+export const useShop = () => {
+    return useContext(ShopContext);
 };
