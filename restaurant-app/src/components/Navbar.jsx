@@ -63,7 +63,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="desktop-menu" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <Link to="/" className="nav-link" style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--color-text-light)', textDecoration: 'none' }}>Home</Link>
-          <a href="#menu" className="nav-link" style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--color-text-light)', textDecoration: 'none' }}>Menu</a>
+          <Link to="/menu" className="nav-link" style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--color-text-light)', textDecoration: 'none' }}>Menu</Link>
           <a href="#about" className="nav-link" style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--color-text-light)', textDecoration: 'none' }}>About</a>
 
           {/* Dropdown */}

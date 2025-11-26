@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Offers = () => {
+    const [claimedOffers, setClaimedOffers] = useState([]);
+
     const offers = [
         {
             id: 1,
@@ -27,6 +29,13 @@ const Offers = () => {
             validUntil: "Mon - Thu"
         }
     ];
+
+    const handleClaim = (id) => {
+        if (!claimedOffers.includes(id)) {
+            setClaimedOffers([...claimedOffers, id]);
+            alert("Offer claimed successfully! Show this code to your server: OFFER-" + id + Math.floor(Math.random() * 1000));
+        }
+    };
 
     return (
         <div className="page-container" style={{ paddingTop: '6rem', paddingBottom: '4rem', minHeight: '100vh', backgroundColor: 'var(--color-bg)' }}>
@@ -65,7 +74,14 @@ const Offers = () => {
                                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>{offer.description}</p>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <span style={{ color: 'var(--color-primary)', fontSize: '0.8rem', letterSpacing: '1px' }}>{offer.validUntil}</span>
-                                    <button className="btn-outline" style={{ padding: '0.5rem 1.5rem', fontSize: '0.8rem' }}>CLAIM OFFER</button>
+                                    <button
+                                        onClick={() => handleClaim(offer.id)}
+                                        className={claimedOffers.includes(offer.id) ? "btn" : "btn-outline"}
+                                        style={{ padding: '0.5rem 1.5rem', fontSize: '0.8rem', backgroundColor: claimedOffers.includes(offer.id) ? 'var(--color-primary)' : 'transparent', color: claimedOffers.includes(offer.id) ? '#000' : 'var(--color-primary)' }}
+                                        disabled={claimedOffers.includes(offer.id)}
+                                    >
+                                        {claimedOffers.includes(offer.id) ? "CLAIMED" : "CLAIM OFFER"}
+                                    </button>
                                 </div>
                             </div>
                         </div>

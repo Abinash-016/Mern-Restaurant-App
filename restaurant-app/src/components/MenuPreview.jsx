@@ -31,6 +31,8 @@ const dishes = [
     }
 ];
 
+import { Link } from 'react-router-dom';
+
 const MenuPreview = () => {
     return (
         <section id="menu" className="section-padding" style={{ backgroundColor: 'var(--color-surface)' }}>
@@ -67,16 +69,16 @@ const MenuPreview = () => {
                                     <span style={{ color: 'var(--color-primary)', fontWeight: '700', fontSize: '1.2rem' }}>{dish.price}</span>
                                 </div>
                                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem' }}>{dish.description}</p>
-                                <a href="#" style={{ color: 'var(--color-primary)', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: '700', letterSpacing: '1px' }}>
+                                <Link to="/menu" style={{ color: 'var(--color-primary)', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: '700', letterSpacing: '1px' }}>
                                     Order Now &rarr;
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     ))}
                 </div>
 
                 <div className="text-center" style={{ marginTop: '4rem' }}>
-                    <a href="#" className="btn btn-outline">View Full Menu</a>
+                    <Link to="/menu" className="btn btn-outline">View Full Menu</Link>
                 </div>
             </div>
         </section>

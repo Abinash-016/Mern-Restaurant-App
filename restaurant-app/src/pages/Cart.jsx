@@ -1,16 +1,24 @@
 import React from 'react';
 import { Trash2, Plus, Minus } from 'lucide-react';
+import { useShop } from '../context/ShopContext';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
-    // Mock data
-    const cartItems = [
-        { id: 1, name: "Truffle Risotto", price: 32, quantity: 1, image: "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" },
-        { id: 2, name: "Pan Seared Scallops", price: 45, quantity: 2, image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" }
-    ];
+    const { cartItems, updateQuantity, removeFromCart } = useShop();
 
     const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const tax = subtotal * 0.1;
     const total = subtotal + tax;
+
+    if (cartItems.length === 0) {
+        return (
+            <div className="page-container" style={{ paddingTop: '6rem', paddingBottom: '4rem', minHeight: '100vh', backgroundColor: 'var(--color-bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <h1 className="text-gold" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Your Cart is Empty</h1>
+                <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>Looks like you haven't added anything yet.</p>
+                <Link to="/#menu" className="btn">Browse Menu</Link>
+            </div>
+        );
+    }
 
     return (
         <div className="page-container" style={{ paddingTop: '6rem', paddingBottom: '4rem', minHeight: '100vh', backgroundColor: 'var(--color-bg)' }}>
@@ -35,16 +43,25 @@ const Cart = () => {
                             </div>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginRight: '2rem' }}>
-                                <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <button
+                                    onClick={() => updateQuantity(item.id, -1)}
+                                    style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                                >
                                     <Minus size={16} />
                                 </button>
                                 <span style={{ color: 'var(--color-text)', fontWeight: 'bold' }}>{item.quantity}</span>
-                                <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <button
+                                    onClick={() => updateQuantity(item.id, 1)}
+                                    style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                                >
                                     <Plus size={16} />
                                 </button>
                             </div>
 
-                            <button style={{ color: '#ef4444', background: 'none' }}>
+                            <button
+                                onClick={() => removeFromCart(item.id)}
+                                style={{ color: '#ef4444', background: 'none', cursor: 'pointer' }}
+                            >
                                 <Trash2 size={20} />
                             </button>
                         </div>

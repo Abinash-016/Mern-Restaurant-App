@@ -8,6 +8,7 @@ import Cart from './pages/Cart';
 import Favorites from './pages/Favorites';
 import Location from './pages/Location';
 import OrderHistory from './pages/OrderHistory';
+import Menu from './pages/Menu';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/reservation" element={<Reservation />} />
+      <Route path="/menu" element={<Menu />} />
       <Route path="/offers" element={<Offers />} />
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/cart" element={<Cart />} />
