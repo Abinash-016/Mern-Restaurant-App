@@ -6,21 +6,39 @@ const ShopContext = createContext();
 export const ShopProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [user, setUser] = useState(null);
     const { showToast } = useToast();
 
     // Load from localStorage on mount
     useEffect(() => {
         const savedCart = localStorage.getItem('cartItems');
         const savedFavorites = localStorage.getItem('favorites');
+        const savedUser = localStorage.getItem('user');
         if (savedCart) setCartItems(JSON.parse(savedCart));
         if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
+        if (savedUser) setUser(JSON.parse(savedUser));
     }, []);
 
     // Save to localStorage on change
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         localStorage.setItem('favorites', JSON.stringify(favorites));
-    }, [cartItems, favorites]);
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('user');
+        }
+    }, [cartItems, favorites, user]);
+
+    const login = (userData) => {
+        setUser(userData);
+        showToast(`Welcome back, ${userData.name}!`, 'success');
+    };
+
+    const logout = () => {
+        setUser(null);
+        showToast('Logged out successfully', 'info');
+    };
 
     const addToCart = (item) => {
         setCartItems((prev) => {
@@ -66,7 +84,7 @@ export const ShopProvider = ({ children }) => {
     };
 
     return (
-        <ShopContext.Provider value={{ cartItems, favorites, addToCart, removeFromCart, updateQuantity, toggleFavorite }}>
+        <ShopContext.Provider value={{ cartItems, favorites, user, addToCart, removeFromCart, updateQuantity, toggleFavorite, login, logout }}>
             {children}
         </ShopContext.Provider>
     );

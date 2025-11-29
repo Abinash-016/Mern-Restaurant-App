@@ -31,6 +31,7 @@ const Navbar = () => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const dropdownItems = [
+    { name: 'Login', path: '/login', icon: <User size={16} /> },
     { name: 'Offers', path: '/offers', icon: <Gift size={16} /> },
     { name: 'Reviews', path: '/reviews', icon: <Star size={16} /> },
     { name: 'Cart', path: '/cart', icon: <ShoppingCart size={16} /> },

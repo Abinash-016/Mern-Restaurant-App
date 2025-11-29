@@ -3,6 +3,8 @@ import { menuData } from '../data/menuData';
 import { useShop } from '../context/ShopContext';
 import { ShoppingCart, Heart } from 'lucide-react';
 
+import Navbar from '../components/Navbar';
+
 const Menu = () => {
     const [activeCategory, setActiveCategory] = useState('All');
     const { addToCart, toggleFavorite, favorites } = useShop();
@@ -17,6 +19,7 @@ const Menu = () => {
 
     return (
         <div className="page-container" style={{ paddingTop: '6rem', paddingBottom: '4rem', minHeight: '100vh', backgroundColor: 'var(--color-bg)' }}>
+            <Navbar />
             <div className="container">
                 <h1 className="text-gold text-center" style={{ fontSize: '3rem', marginBottom: '1rem' }}>Our Menu</h1>
                 <p className="text-center" style={{ color: 'var(--color-text-muted)', marginBottom: '3rem', maxWidth: '600px', margin: '0 auto 3rem' }}>
@@ -79,7 +82,7 @@ const Menu = () => {
                             <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
                                     <h3 style={{ color: 'var(--color-text)', fontSize: '1.2rem', fontFamily: 'var(--font-heading)' }}>{item.name}</h3>
-                                    <span style={{ color: 'var(--color-primary)', fontSize: '1.1rem', fontWeight: 'bold' }}>${item.price}</span>
+                                    <span style={{ color: 'var(--color-primary)', fontSize: '1.1rem', fontWeight: 'bold' }}>₹{item.price}</span>
                                 </div>
                                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem', flex: 1 }}>{item.description}</p>
 

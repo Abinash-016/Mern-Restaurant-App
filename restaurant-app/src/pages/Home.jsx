@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import MenuPreview from '../components/MenuPreview';
 import Footer from '../components/Footer';
+import { useShop } from '../context/ShopContext';
 
 const Home = () => {
+    const { user } = useShop();
+
     return (
         <div className="home-page">
             <Navbar />
@@ -29,7 +32,9 @@ const Home = () => {
                         textTransform: 'uppercase',
                         marginBottom: '1rem',
                         color: 'var(--color-primary)'
-                    }}>Welcome to Lumière</span>
+                    }}>
+                        {user ? `Welcome, ${user.name}!` : 'Welcome to Lumière'}
+                    </span>
                     <h1 style={{
                         fontSize: '5rem',
                         marginBottom: '1.5rem',

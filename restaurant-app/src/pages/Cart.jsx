@@ -39,7 +39,7 @@ const Cart = () => {
 
                             <div style={{ flex: 1 }}>
                                 <h3 style={{ color: 'var(--color-text)', marginBottom: '0.5rem' }}>{item.name}</h3>
-                                <p style={{ color: 'var(--color-primary)' }}>${item.price}</p>
+                                <p style={{ color: 'var(--color-primary)' }}>₹{item.price}</p>
                             </div>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginRight: '2rem' }}>
@@ -76,16 +76,16 @@ const Cart = () => {
                     }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: 'var(--color-text-muted)' }}>
                             <span>Subtotal</span>
-                            <span>${subtotal.toFixed(2)}</span>
+                            <span>₹{subtotal.toFixed(2)}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: 'var(--color-text-muted)' }}>
                             <span>Tax (10%)</span>
-                            <span>${tax.toFixed(2)}</span>
+                            <span>₹{tax.toFixed(2)}</span>
                         </div>
                         <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.1)', margin: '1rem 0' }}></div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', color: 'var(--color-text)', fontSize: '1.2rem', fontWeight: 'bold' }}>
                             <span>Total</span>
-                            <span className="text-gold">${total.toFixed(2)}</span>
+                            <span className="text-gold">₹{total.toFixed(2)}</span>
                         </div>
                         <button className="btn" style={{ width: '100%', backgroundColor: 'var(--color-primary)', color: '#000' }}>
                             Proceed to Checkout
