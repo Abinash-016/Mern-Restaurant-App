@@ -35,7 +35,7 @@ const Location = () => {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
                                     <MapPin className="text-gold" />
-                                    <p style={{ color: 'var(--color-text-muted)' }}>123 Culinary Avenue,<br />Gourmet District, NY 10012</p>
+                                    <p style={{ color: 'var(--color-text-muted)' }}>Odisha,<br />Cuttack District, 754008</p>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                     <Phone className="text-gold" />
